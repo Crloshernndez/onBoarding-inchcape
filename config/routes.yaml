@@ -1,0 +1,24 @@
+app.product.create:
+  path: /api/product/create
+  controller: App\Infrastructure\GraphQL\Controller\CreateProductController
+  methods: [POST]
+
+app.product.getById:
+  path: /api/product/{id}
+  controller: App\Infrastructure\GraphQL\Controller\ConfiguratorProductController::SearchProductById
+  methods: [POST]
+
+app.product.get:
+  path: /api/product/products
+  controller: App\Infrastructure\GraphQL\Controller\ConfiguratorProductController::SearchAllProducts
+  methods: [GET]
+
+app.product.update:
+  path: /api/product/update/{id} # Puedes ajustar la URL según tus necesidades
+  controller: App\Infrastructure\GraphQL\Controller\ConfiguratorProductController::UpdateProduct
+  methods: [PUT]
+
+app.product.delete:
+  path: /api/product/delete/{id} # Puedes ajustar la URL según tus necesidades
+  controller: App\Infrastructure\GraphQL\Controller\ConfiguratorProductController::DeleteProduct
+  methods: [DELETE]

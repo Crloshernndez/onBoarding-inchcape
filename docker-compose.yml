@@ -1,0 +1,61 @@
+version: "3.5"
+
+services:
+  exercise-1-web:
+    container_name: exercise-1-web
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $U_ID
+    ports:
+      - 300:80 # cambia el puerto
+    volumes:
+      - ./public:/appdata/www/public
+    networks:
+      - exercise-1-network
+    depends_on:
+      - exercise-1-be
+
+  exercise-1-be:
+    container_name: exercise-1-be
+    build:
+      context: ./docker/php
+      args:
+        UID: $U_ID
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=172.17.0.1 remote_port=9005 # Linux users
+    #      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005 # MacOS users
+    volumes:
+      - ./:/appdata/www
+      - ./docker/php/xdebug-linux.ini:/usr/local/etc/php/conf.d/xdebug.ini # Linux users
+      #    - ./docker/php/xdebug-macos.ini:/usr/local/etc/php/conf.d/xdebug.ini # MacOS users
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
+    networks:
+      - exercise-1-network
+    depends_on:
+      - exercise-1-db
+
+  exercise-1-db:
+    container_name: exercise-1-db
+    image: mysql:8.0.26
+    ports:
+      - 40000:3306
+    environment:
+      MYSQL_DATABASE: docker_symfony_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - exercise-1-database-data:/var/lib/mysql
+    networks:
+      - exercise-1-network
+
+volumes:
+  exercise-1-database-data:
+
+networks:
+  exercise-1-network:
+    external: true
