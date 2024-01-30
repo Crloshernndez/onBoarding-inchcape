@@ -11,6 +11,10 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
+        "overblog/dataloader-bundle": "*",
+        "overblog/graphql-bundle": "*",
+        "psr/http-factory": "*",
+        "psr/simple-cache": "*",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
@@ -72,6 +76,7 @@
         "codeception/module-asserts": "^3.0",
         "codeception/module-doctrine2": "^3.0",
         "codeception/module-symfony": "^3.2",
+        "overblog/graphiql-bundle": "*",
         "symfony/maker-bundle": "^1.50"
     }
 }

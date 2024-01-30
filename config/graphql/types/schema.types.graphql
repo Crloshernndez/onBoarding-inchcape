@@ -1,0 +1,10 @@
+type Product {
+  name: String!
+  price: Float!
+  description: String
+  slug: Str
+}
+
+type Query {
+  listProducts: [Product]
+}

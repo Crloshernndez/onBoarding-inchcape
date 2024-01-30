@@ -24,5 +24,8 @@ services:
     resource: "../src/Infrastructure/GraphQL/Controller"
     tags: ["controller.service_arguments"]
 
+  App\Infrastructure\GraphQL\Resolver\ResolverMap:
+    tags: [{ name: overblog_graphql.resolver_map, schema: default }]
+
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
