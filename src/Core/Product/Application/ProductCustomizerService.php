@@ -15,7 +15,6 @@ class ProductCustomizerService
 
     public function searchProducts(): array
     {
-
         $query = "SELECT * FROM product";
         $products = $this->productRepository->searchProducts($query);
 

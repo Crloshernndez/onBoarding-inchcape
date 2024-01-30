@@ -6,23 +6,37 @@ use App\Core\Product\Doctrine\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="product")
+ *  
+ */
 class Product
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column
+     */
     public ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    public ?string $name = null;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public ?string $name;
 
-    #[ORM\Column]
-    public ?float $price = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    public ?float $price;
 
-    #[ORM\Column(type: Types::TEXT)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     public ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     public ?string $slug = null;
 }

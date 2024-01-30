@@ -42,8 +42,11 @@ class ProductRepository extends ServiceEntityRepository
 
     public function searchProducts($query): array
     {
-        $result = $this->getEntityManager()->getConnection()->executeQuery($query)->fetchAllAssociative();
-
+        $result = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery($query)
+            ->fetchAllAssociative();
+        
         return $result;
     }
 

@@ -15,17 +15,13 @@ class ConfiguratorProductController
     {
     }
 
-    public function SearchAllProducts(Request $request): JsonResponse
+    public function SearchAllProducts(): array
     {
         // $data = json_decode($request->getContent(), true); 
 
         $products = $this->productCustomizerService->searchProducts();
 
-        return new JsonResponse(['products' => [
-                $products
-            ]
-        ]
-        , JsonResponse::HTTP_OK);
+        return $products;
     }
 
     public function SearchProductById(Request $request, string $id): JsonResponse
