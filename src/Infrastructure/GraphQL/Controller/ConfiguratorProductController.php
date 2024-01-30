@@ -4,8 +4,10 @@ namespace App\Infrastructure\GraphQL\Controller;
 
 use App\Core\Product\Application\ProductCustomizerService;
 use App\Core\Product\Domain\Model\Product;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 class ConfiguratorProductController
 {
@@ -24,15 +26,13 @@ class ConfiguratorProductController
         return $products;
     }
 
-    public function SearchProductById(Request $request, string $id): JsonResponse
+    public function SearchProductById(ArgumentInterface $args)
     {
+        $id = $args->offsetGet('id');
         // $data = json_decode($request->getContent(), true);
         $product = $this->productCustomizerService->searchProduct($id);
 
-        return new JsonResponse(['product' => [
-            $product
-        ]]
-    , JsonResponse::HTTP_OK);
+        return $product;
     }
 
     public function UpdateProduct(Request $request, string $id): JsonResponse

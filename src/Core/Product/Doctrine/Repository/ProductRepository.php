@@ -55,9 +55,9 @@ class ProductRepository extends ServiceEntityRepository
         $result = $this->getEntityManager()
             ->getConnection()
             ->executeQuery($query, $params)
-            ->fetchAllAssociative();
+            ->fetchAll();
 
-        return $result;
+        return $result[0];
     }
 
     public function findOneById(string $id): ?Product

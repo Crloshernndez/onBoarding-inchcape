@@ -6,6 +6,7 @@ use App\Core\Product\Application\CreateProductService;
 use App\Core\Product\Domain\Model\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Overblog\GraphQLBundle\Definition\ArgumentInterface;
 
 class CreateProductController
 {
@@ -15,25 +16,18 @@ class CreateProductController
     {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ArgumentInterface $args)
     {
-        $data = json_decode($request->getContent(), true);
         $product = new Product(
-            $data['name'],
-            $data['price'],
-            $data['description'],
-            $data['slug']
+            $args['input']['name'],
+            $args['input']['price'],
+            $args['input']['description'],
+            $args['input']['slug']
         );
-
+        
         $this->createProductService->registerProduct($product);
 
-        return new JsonResponse(['product' => [
-            'name'=>$product->getName(),
-            'price'=>$product->getprice(),
-            'description'=>$product->getdescription(),
-            'slug'=>$product->getslug()
-            ]
-        ]
-        , JsonResponse::HTTP_CREATED);
+
+        return $product;
     }
 }

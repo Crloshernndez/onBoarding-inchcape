@@ -32,12 +32,20 @@ class ResolverMap extends BaseResolverMap
                         ->get(ConfiguratorProductController::class)
                         ->SearchAllProducts($args);
                 },
+                'searchProduct' => function (
+                    $value,
+                    ArgumentInterface $args
+                ) {
+                    return $this->serviceLocator
+                    ->get(ConfiguratorProductController::class)
+                    ->SearchProductById($args);
+                }
                 ],
             'Mutation' => [
                 'createProduct' => fn(
                     $value,
                     ArgumentInterface $args
-                ) => $this->serviceLocator->get(CreateProductController::class->__invoke($arg))
+                ) => $this->serviceLocator->get(CreateProductController::class)->__invoke($args)
             ]
         ];
     }

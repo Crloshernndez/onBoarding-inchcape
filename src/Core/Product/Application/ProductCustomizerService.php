@@ -27,7 +27,7 @@ class ProductCustomizerService
     }
 
     public function searchProduct(string $id): array
-    {
+    {  
         $query = "SELECT * FROM product WHERE id = :id";
         $params = ['id' => $id];
         $product = $this->productRepository->searchProduct($query, $params);

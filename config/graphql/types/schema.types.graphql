@@ -7,4 +7,16 @@ type Product {
 
 type Query {
   searchProducts: [Product]
+  searchProduct(id: String!): Product
+}
+
+input ProductInput {
+  name: String!
+  price: Float!
+  description: String!
+  slug: String!
+}
+
+type Mutation {
+  createProduct(input: ProductInput): Product
 }
