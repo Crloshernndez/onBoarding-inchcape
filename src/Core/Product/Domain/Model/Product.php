@@ -2,11 +2,10 @@
 
 namespace App\Core\Product\Domain\Model;
 
-use App\Core\Product\Doctrine\Repository\ProductRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\Types;
+// use App\Core\Product\Doctrine\Repository\ProductRepository;
+// use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
+// #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
 

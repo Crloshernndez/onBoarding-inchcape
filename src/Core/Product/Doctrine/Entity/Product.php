@@ -2,7 +2,6 @@
 
 namespace App\Core\Product\Doctrine\Entity;
 
-use App\Core\Product\Doctrine\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
