@@ -3,77 +3,63 @@
 namespace App\Core\Product\Application;
 
 use App\Core\Product\Domain\Model\Product;
-use App\Core\Product\Doctrine\Repository\ProductRepository;
+use App\Core\Product\Domain\Ports\ProductRepositoryInterface;
 
 class ProductCustomizerService
 {
     public function __construct(
-        private ProductRepository $productRepository
+        private ProductRepositoryInterface $productRepository
         )
     {
     }
 
     public function searchProducts(): array
     {
-        $query = "SELECT * FROM product";
-        $products = $this->productRepository->searchProducts($query);
-
-        $count = count($products);
-        if (0 === $count){
-            dd("No hay product");
-        }
+        $products = $this->productRepository->findAll();
 
         return $products;
     }
 
-    public function searchProduct(string $id): array
+    public function searchProductById(string $id): ?Product
     {  
-        $query = "SELECT * FROM product WHERE id = :id";
-        $params = ['id' => $id];
-        $product = $this->productRepository->searchProduct($query, $params);
-
-        if(null === $product){
-            dd('No se encontro product');
-        }
-
-        return $product;
+        return $this->productRepository->findOneById($id);
     }
 
-    public function updateProduct(string $id, array $data): Product
-    {
-        $fieldsToUpdate = [];
-        $params = ['id' => $id];
+    // public function updateProduct(string $id, array $data): Product
+    // {
+    //     $fieldsToUpdate = [];
+    //     $params = ['id' => $id];
     
-        foreach ($data as $key => $value) {
-            $fieldsToUpdate[] = "$key = :$key";
-            $params[$key] = $value;
-        }
+    //     foreach ($data as $key => $value) {
+    //         $fieldsToUpdate[] = "$key = :$key";
+    //         $params[$key] = $value;
+    //     }
     
-        if (empty($fieldsToUpdate)) {
-            dd('No se proporcionaron datos para actualizar');
-        }
+    //     if (empty($fieldsToUpdate)) {
+    //         dd('No se proporcionaron datos para actualizar');
+    //     }
     
-        $query = sprintf("UPDATE product SET %s WHERE id = :id", implode(', ', $fieldsToUpdate));
-        $updatedProduct = $this->productRepository->updateProduct($query, $params);
+    //     $query = sprintf("UPDATE product SET %s WHERE id = :id", implode(', ', $fieldsToUpdate));
+    //     $updatedProduct = $this->productRepository->updateProduct($query, $params);
     
-        if (null === $updatedProduct) {
-            dd('No se pudo actualizar el producto');
-        }
+    //     if (null === $updatedProduct) {
+    //         dd('No se pudo actualizar el producto');
+    //     }
     
-        return $updatedProduct;
-    }
+    //     return $updatedProduct;
+    // }
 
-    public function deleteProduct(string $id): Product
-    {
-        $query = "DELETE FROM product WHERE id = :id";
-        $params = ['id' => $id];
+    // public function deleteProduct(string $id): Product
+    // {
+    //     $query = "DELETE FROM product WHERE id = :id";
+    //     $params = ['id' => $id];
 
-        $productDeleted = $this->productRepository->deleteProduct($query, $params);
+    //     $productDeleted = $this->productRepository->deleteProduct($query, $params);
 
-        if (null === $productDeleted) {
-            dd('No se pudo eliminar el producto');
-        }
+    //     if (null === $productDeleted) {
+    //         dd('No se pudo eliminar el producto');
+    //     }
 
-        return $productDeleted;
-    }
+    //     return $productDeleted;
+    // }
 }

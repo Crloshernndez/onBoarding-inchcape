@@ -5,6 +5,7 @@ namespace App\Core\Onboarding\Doctrine\Entity;
 use App\Core\Onboarding\Domain\Model\Rmb;
 use Doctrine\ORM\Mapping as ORM;
 
+
 trait RmbAwareEntityTrait
 {
     /**
@@ -16,7 +17,7 @@ trait RmbAwareEntityTrait
      * @ORM\ManyToOne(targetEntity="Country"),
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
-    private string $country;
+    private Country $country_id;
 
     /**
      * @ORM\Column(type="string")
@@ -38,17 +39,17 @@ trait RmbAwareEntityTrait
         return $this;
     }
 
-    public function getCountry(): string
+    public function getCountry_id(): Country
     {
-        return $this->country;
+        return $this->country_id;
     }
 
     /**
      * @return $this
      */
-    public function setCountry(string $country): static
+    public function setCountry_id(Country $country_id): static
     {
-        $this->country = $country;
+        $this->country_id = $country_id;
 
         return $this;
     }
@@ -70,7 +71,7 @@ trait RmbAwareEntityTrait
 
     public function getRmb(): Rmb
     {
-        return new Rmb($this->region, $this->country, $this->brand);
+        return new Rmb($this->region, $this->country_id, $this->brand);
     }
 
     /**
@@ -79,7 +80,7 @@ trait RmbAwareEntityTrait
     public function setRmb(Rmb $rmb): static
     {
         $this->region = $rmb->getRegion();
-        $this->country = $rmb->getCountry();
+        $this->country_id = $rmb->getCountry_id();
         $this->brand = $rmb->getBrand();
 
         return $this;

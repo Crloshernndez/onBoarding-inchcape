@@ -27,5 +27,12 @@ services:
   App\Infrastructure\GraphQL\Resolver\ResolverMap:
     tags: [{ name: overblog_graphql.resolver_map, schema: default }]
 
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+  App\Infrastructure\Symplify\EasyHydrator\src\ArrayToValueObjectHydrator:
+    arguments:
+      $cache: '@Symfony\Component\Cache\Adapter\ArrayAdapter'
+
+  App\Infrastructure\Symplify\EasyHydrator\src\TypeCastersCollector:
+    arguments:
+      $typeCasters: []
+
+  Symfony\Component\Cache\Adapter\ArrayAdapter: ~

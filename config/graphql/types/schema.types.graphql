@@ -1,13 +1,52 @@
 type Product {
-  name: String!
-  price: Float!
-  description: String!
-  slug: String!
+  name: String
+  price: Float
+  description: String
+  slug: String
+}
+
+type Client {
+  firstName: String
+  lastName: String
+  newsletter: Boolean
+  language: String
+  source: String
+  region: String
+  country: String
+  brand: String
+  data: ClientData
+  address: Address
+}
+
+type ClientData {
+  saludation: String
+  phone: String
+  email: String
+}
+
+type Address {
+  country: String
+  city: String
+  street: String
+  number: String
+  comments: String
+}
+
+type ClientsList {
+  count: Int
+  nodes: [Client!]
+}
+
+type ProductsList {
+  count: Int
+  nodes: [Product]
 }
 
 type Query {
   searchProducts: [Product]
   searchProduct(id: String!): Product
+  searchClients: ClientsList
+  searchClient(id: String!): Client
 }
 
 input ProductInput {
@@ -18,5 +57,5 @@ input ProductInput {
 }
 
 type Mutation {
-  createProduct(input: ProductInput): Product
+  createProduct(input: ProductInput): String
 }

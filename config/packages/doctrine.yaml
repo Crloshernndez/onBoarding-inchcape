@@ -16,6 +16,11 @@ doctrine:
         dir: "%kernel.project_dir%/src/Core/Product/Doctrine/Entity"
         prefix: 'App\Core\Product\Doctrine\Entity'
         alias: Product
+      Onboarding:
+        is_bundle: false
+        dir: "%kernel.project_dir%/src/Core/Onboarding/Doctrine/Entity"
+        prefix: 'App\Core\Onboarding\Doctrine\Entity'
+        alias: Onboarding
 
 when@test:
   doctrine:

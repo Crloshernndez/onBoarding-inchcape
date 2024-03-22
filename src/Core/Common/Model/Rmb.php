@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Onboarding\Domain\Model;
+namespace App\Core\Common\Model;
 
 class Rmb implements \Stringable
 {
@@ -27,5 +27,17 @@ class Rmb implements \Stringable
         return $this->brand;
     }
 
+    public function toDimension(string $language): Dimensions
+    {
+        return new Dimensions($this->region, $this->country, $language, $this->brand);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString(): string
+    {
+        return \implode(' ', [$this->region, $this->country, $this->brand]);
+    }
     
 }

@@ -4,30 +4,46 @@ namespace App\Core\Product\Doctrine\Repository;
 
 use App\Core\Product\Doctrine\Entity\Product;
 use App\Core\Product\Domain\Model\Product as DomainProduct;
+use App\Core\Product\Domain\Ports\ProductRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
     }
 
-    public function create(DomainProduct $localProduct): DomainProduct
+    public function findAll(): array
     {
+        return parent::findAll();
+    }
 
-        $product = new Product();
-        $product->name = $localProduct->getName();
-        $product->price = $localProduct->getPrice();
-        $product->description = $localProduct->getDescription();
-        $product->slug = $localProduct->getSlug();
-        
+    public function findOneById(string $id): ?DomainProduct
+    {
+        $productEntity = $this->find($id);
+    
+        if ($productEntity === null) {
+            return null;
+        }
+    
+        return $this->createDomainProductFromEntity($productEntity);
+    }
+
+    public function create(DomainProduct $product): string
+    {
+        $productEntity = new Product();
+        $productEntity->name = $product->getName();
+        $productEntity->slug = $product->getSlug();
+        $productEntity->price = $product->getPrice();
+        $productEntity->description = $product->getDescription();
+
         $entityManager = $this->getEntityManager();
-        $entityManager->persist($product);
+        $entityManager->persist($productEntity);
         $entityManager->flush();
 
-        return $this->createDomainProductFromEntity($product);
+        return $product->getName();
     }
 
     public function createDomainProductFromEntity(Product $product): DomainProduct
@@ -40,57 +56,32 @@ class ProductRepository extends ServiceEntityRepository
         );
     }
 
-    public function searchProducts($query): array
-    {
-        $result = $this->getEntityManager()
-            ->getConnection()
-            ->executeQuery($query)
-            ->fetchAllAssociative();
-        
-        return $result;
-    }
+    // public function deleteProduct(string $query, array $params): ?DomainProduct
+    // {
+    //     $deletedProductEntity = $this->findOneById($params['id']);
 
-    public function searchProduct(string $query, array $params): array
-    {
-        $result = $this->getEntityManager()
-            ->getConnection()
-            ->executeQuery($query, $params)
-            ->fetchAll();
+    //     if(null === $deletedProductEntity){
+    //         dd("Producto no existe");
+    //     }
 
-        return $result[0];
-    }
+    //     $entityManager = $this->getEntityManager()
+    //         ->getConnection()
+    //         ->executeQuery($query, $params);
 
-    public function findOneById(string $id): ?Product
-    {
-        return $this->find($id);
-    }
+    //     return $this->createDomainProductFromEntity($deletedProductEntity);
+    // }
 
-    public function deleteProduct(string $query, array $params): ?DomainProduct
-    {
-        $deletedProductEntity = $this->findOneById($params['id']);
+    // public function updateProduct(string $query, array $params): ?DomainProduct
+    // {
+    //     $this->getEntityManager()
+    //         ->getConnection()
+    //         ->executeQuery($query, $params);
 
-        if(null === $deletedProductEntity){
-            dd("Producto no existe");
-        }
+    //     $updatedProductEntity = $this->findOneById($params['id']);
 
-        $entityManager = $this->getEntityManager()
-            ->getConnection()
-            ->executeQuery($query, $params);
-
-        return $this->createDomainProductFromEntity($deletedProductEntity);
-    }
-
-    public function updateProduct(string $query, array $params): ?DomainProduct
-    {
-        $this->getEntityManager()
-            ->getConnection()
-            ->executeQuery($query, $params);
-
-        $updatedProductEntity = $this->findOneById($params['id']);
-
-        if (null === $updatedProductEntity) {
-            return null;
-        }
-        return $this->createDomainProductFromEntity($updatedProductEntity);
-    }
+    //     if (null === $updatedProductEntity) {
+    //         return null;
+    //     }
+    //     return $this->createDomainProductFromEntity($updatedProductEntity);
+    // }
 }
